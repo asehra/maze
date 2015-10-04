@@ -9,6 +9,11 @@ class Maze
     @structure = generate
   end
 
+  def to_s
+    maze = structure.map { |row| row.map { |val| val == 1 ? '@': ' '}.join }
+    maze.join("\n")
+  end
+
   private
 
   def generate

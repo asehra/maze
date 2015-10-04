@@ -1,7 +1,7 @@
 RSpec.describe do
   describe Maze do
-    let(:width) { 7 }
-    let(:height) { 5 }
+    let(:width) { rand(5..10) }
+    let(:height) { rand(5..10) }
 
     subject(:maze) { Maze.new(width: width, height: height) }
 

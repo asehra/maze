@@ -103,8 +103,7 @@ RSpec::Matchers.define :have_a_valid_solution do
       end
       index += 1
     end
-    maze = actual.structure.map { |row| row.map { |val| val == 1 ? '▓': ' '}.join }
-    puts maze.join("\n")
+    puts actual
     path.include? [actual.exit[:row], actual.exit[:col]]
   end
 

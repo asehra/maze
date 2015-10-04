@@ -13,3 +13,9 @@
  *= require_tree .
  *= require_self
  */
+
+pre {
+  font-size: .3em;
+  font-weight: bold;
+  line-height: 1.1;
+}
