@@ -1,0 +1,14 @@
+{
+  "name": "maze",
+  "version": "1.0.0",
+  "description": "Maze solver",
+  "main": "app/assets/javascripts/maze.js",
+  "scripts": {
+    "test": "node_modules/.bin/testem ci"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "testem": "^0.9.6"
+  }
+}

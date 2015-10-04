@@ -1,4 +1,14 @@
-<h1>Hello Maze</h1>
+<script>
+  var maze = <%= @maze.structure %>;
+  var solution = MazeSolver.solve(maze);
+
+  var showSolution = function() {
+    document.getElementById('maze').innerText = solution;
+  }
+
+</script>
+
 <pre id='maze'>
 <%= @maze %>
 </pre>
+<button onClick='showSolution()'>Solve</button>
