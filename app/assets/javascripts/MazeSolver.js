@@ -8,8 +8,12 @@
     this.location = location;
   }
 
+  Node.prototype.isAt = function(location) {
+    return arrayEquals(this.location, location);
+  }
+
   Node.prototype.isDescendantOf = function(location) {
-    return this.parent && arrayEquals(this.parent.location, location);
+    return this.parent && this.parent.isAt(location);
   }
 
   Node.prototype.neighbouringLocation = function(direction) {
@@ -18,22 +22,21 @@
   }
 
   var directions = [[-1, 0], [0, 1], [1, 0], [0, -1]];
-  var neighbourNode, output;
+  var neighbourNode;
 
   var locate = function(maze, start, end) {
-    if(arrayEquals(start.location, end)) return start;
-    var i = 0;
+    if(start.isAt(end)) return start;
+    var i = 0, located = false;
     for(i=0; i<directions.length; i++) {
       var neighbour = start.neighbouringLocation(directions[i]);
       if(start.isDescendantOf(neighbour)) { continue; }
 
       if(maze[neighbour[0]][neighbour[1]] === 0) {
-        output = locate(maze, new Node(neighbour, start), end);
-        if(output !== -1) { return output; }
+        located = located || locate(maze, new Node(neighbour, start), end);
       }
     }
 
-    return -1;
+    return located;
   }
 
   var plotPath = function(maze, startNode) {
@@ -42,6 +45,14 @@
       maze[current.location[0]][current.location[1]] = '*';
       current = current.parent
     }
+    return maze;
+  }
+
+  var clone = function(maze) {
+    var other = [];
+    for(var i = 0; i < maze.length; i++) other.push(maze[i].slice());
+
+    return other;
   }
 
   var MazeSolver = {
@@ -51,8 +62,8 @@
 
       var endNode = locate(maze, root, end);
 
-      plotPath(maze, endNode);
-      return this.print(maze);
+      var solution = plotPath(clone(maze), endNode);
+      return this.print(solution);
     },
 
     print: function(maze) {
