@@ -15,7 +15,6 @@
  */
 
 pre {
-  font-size: .3em;
-  font-weight: bold;
-  line-height: 1.1;
+  font: bold 1em "Courier New", monospace;
+  line-height: 1;
 }
