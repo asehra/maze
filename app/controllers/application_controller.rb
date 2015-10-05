@@ -4,6 +4,16 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   def index
-    @maze = Maze.new(width: 10, height: 10)
+    @maze = Maze.new(width: width, height: height)
+  end
+
+  private
+
+  def width
+    [(!params[:width].blank? ? params[:width].to_i : 10), 30].min
+  end
+
+  def height
+    [(!params[:height].blank? ? params[:height].to_i : 10), 30].min
   end
 end
