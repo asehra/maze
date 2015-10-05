@@ -1,5 +1,5 @@
 == Maze
 
-[![Circle CI](https://circleci.com/gh/asehra/maze.svg?style=svg)](https://circleci.com/gh/asehra/maze)]
+[![Circle CI](https://circleci.com/gh/asehra/maze.svg?style=svg)](https://circleci.com/gh/asehra/maze)
 
 Rails app to generate a maze in ruby and solve it in JS. [Live Demo](https://which-maze.herokuapp.com/)
