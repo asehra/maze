@@ -22,7 +22,7 @@ class Maze
     grid[exit[:row]][exit[:col]] = 0
 
     maze = [[entry[:row], entry[:col] + 1]]
-    pending = neighbours_of(maze[0]) - maze
+    pending = neighbours_of(maze[0])
 
     while pending.length > 0 do
       node = pending.delete_at(rand(pending.length))
