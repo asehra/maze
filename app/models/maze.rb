@@ -1,12 +1,11 @@
 class Maze
-  attr_reader :width, :height, :entry, :exit, :structure
+  attr_reader :width, :height, :structure
 
   def initialize(width:, height:)
     @width = width
     @height = height
-    @entry = { row: 1, col: 0 }
-    @exit = { row: 2*height - 1, col: 2 * width }
-    @structure = generate
+    @structure = empty_grid
+    generate!
   end
 
   def to_s
@@ -16,52 +15,42 @@ class Maze
 
   private
 
-  def generate
-    grid = grid_with_rooms
-    grid[entry[:row]][entry[:col]] = 0
-    grid[exit[:row]][exit[:col]] = 0
-
-    maze = [[entry[:row], entry[:col] + 1]]
-    pending = neighbours_of(maze[0])
+  def generate!
+    connected_nodes = [[1, 1]]
+    pending = neighbours_of(connected_nodes[0])
 
     while pending.length > 0 do
-      node = pending.delete_at(rand(pending.length))
-      neighbours = neighbours_of(node)
-      join_point = (neighbours & maze).sample
+      pending_node = pending.delete_at(rand(pending.length))
+      neighbours = neighbours_of(pending_node)
+      random_connected_node = (neighbours & connected_nodes).sample
 
-      maze << connect(node, grid, at: join_point)
-      pending = pending | (neighbours - maze)
+      connected_nodes << connect(pending_node, random_connected_node)
+      pending = pending | (neighbours - connected_nodes)
     end
-    grid
   end
 
-  def connect(node, grid, at:)
-    wall = [(node[0] + at[0])/2, (node[1] + at[1])/2]
-    grid[wall[0]][wall[1]] = 0
+  def connect(node, connected_node)
+    wall = [(node[0] + connected_node[0])/2, (node[1] + connected_node[1])/2]
+    @structure[node[0]][node[1]] = @structure[wall[0]][wall[1]] = 0
     node
   end
 
-  def neighbours_of(ref)
+  def neighbours_of(node)
     directions = [[-2, 0], [2, 0], [0, -2], [0, 2]]
-    neighbours = directions.map { |d| [ref[0] + d[0], ref[1] + d[1]] }
+    neighbours = directions.map { |d| [node[0] + d[0], node[1] + d[1]] }
     neighbours.select do |room|
       (0..(2*height)).include?(room[0]) &&
         (0..(2*width)).include?(room[1])
     end
   end
 
-  def grid_with_rooms
-    (grid = empty_grid).each_with_index do |row, y|
-      next if y.even?
-      row.each_with_index do |value, x|
-        next if x.even?
-        grid[y][x] = 0
-      end
-    end
-  end
-
   def empty_grid
     row = [1] * (2*width + 1)
-    [].tap { |g| (2*height + 1).times { g << row.dup } }
+    [].tap do |grid|
+      (2*height + 1).times { grid << row.dup }
+
+      grid[1][0] = grid[1][1] = 0 #entry
+      grid[2*height-1][2*width] = 0 #exit
+    end
   end
 end

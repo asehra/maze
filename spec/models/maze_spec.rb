@@ -8,18 +8,7 @@ RSpec.describe do
     describe '#initialize' do
       its(:width) { should eq(width) }
       its(:height) { should eq(height) }
-
-      it 'sets entry in first column on valid odd numbered row next to a room' do
-        expect(maze.entry[:row]).to be_odd
-        expect(maze.entry[:row]).to be_between(0, maze.height * 2 - 1)
-        expect(maze.entry[:col]).to eq(0)
-      end
-
-      it 'sets exit in last column on valid odd numbered row next to a room' do
-        expect(maze.exit[:row]).to be_odd
-        expect(maze.exit[:row]).to be_between(0, maze.height * 2 - 1)
-        expect(maze.exit[:col]).to eq(2 * maze.width)
-      end
+      it { should have_a_valid_solution }
     end
 
     describe '#structure' do
@@ -30,24 +19,10 @@ RSpec.describe do
         end
       end
 
-      it 'has height*width "rooms" denoted by 0s at every [odd,odd] coordinate' do
-        maze.structure.each_with_index do |row, y|
-          next if y.even?
-          row.each_with_index do |value, x|
-            next if x.even?
-            expect(value).to eq(0)
-          end
-        end
-      end
-
       it 'should show the entry and exit in the structure' do
-        expect(maze.structure[maze.entry[:row]][maze.entry[:col]]).to eq(0)
-        expect(maze.structure[maze.exit[:row]][maze.exit[:col]]).to eq(0)
+        expect(maze.structure[1][0]).to eq(0)
+        expect(maze.structure[2*height-1][2*width]).to eq(0)
       end
-    end
-
-    context 'validity' do
-      it { should have_a_valid_solution }
     end
   end
 end
