@@ -1,7 +1,26 @@
 (function(window) {
-  var arrayEquals = function(arr1, arr2) {
-    return JSON.stringify(arr1) === JSON.stringify(arr2);
-  };
+  var MazeSolver = {
+    solve: function(maze) {
+      var start = new Node([1,0]),
+      end = [maze.length - 2, maze[0].length - 1];
+
+      var endNode = locate(maze, start, end);
+
+      var solution = plotPath(clone(maze), endNode);
+      return this.print(solution);
+    },
+
+    print: function(maze) {
+      var i, output = [];
+      for(i = 0; i<maze.length; i++) {
+        output[i] = maze[i].join('').replace(/0/g, ' ').replace(/1/g, '▓');
+      }
+
+      return output.join('\n');
+    }
+  }
+
+  window.MazeSolver = MazeSolver;
 
   var Node = function(location, parent) {
     this.parent = parent;
@@ -9,7 +28,7 @@
   }
 
   Node.prototype.isAt = function(location) {
-    return arrayEquals(this.location, location);
+    return JSON.stringify(this.location) === JSON.stringify(location);
   }
 
   Node.prototype.isDescendantOf = function(location) {
@@ -54,27 +73,4 @@
 
     return other;
   }
-
-  var MazeSolver = {
-    solve: function(maze) {
-      var root = new Node([1,0]),
-      end = [maze.length - 2, maze[0].length - 1];
-
-      var endNode = locate(maze, root, end);
-
-      var solution = plotPath(clone(maze), endNode);
-      return this.print(solution);
-    },
-
-    print: function(maze) {
-      var i, output = [];
-      for(i = 0; i<maze.length; i++) {
-        output[i] = maze[i].join('').replace(/0/g, ' ').replace(/1/g, '▓');
-      }
-
-      return output.join('\n');
-    }
-  }
-
-  window.MazeSolver = MazeSolver;
 })(window)

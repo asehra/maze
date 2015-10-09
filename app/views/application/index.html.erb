@@ -13,10 +13,10 @@
   var maze = <%= @maze.structure %>;
   var mazeElement = document.getElementById('maze');
 
-  mazeElement.innerText = MazeSolver.print(maze);
+  mazeElement.textContent = MazeSolver.print(maze);
 
   var showSolution = function() {
-    mazeElement.innerText = MazeSolver.solve(maze);
+    mazeElement.textContent = MazeSolver.solve(maze);
   }
 
 </script>
