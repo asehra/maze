@@ -1,34 +1,19 @@
 describe('MazeSolver', function() {
-  it('solves the basic maze with one room', function() {
-    expect(MazeSolver.solve([
+  var basicMaze = [
       [1,1,1],
       [0,0,0],
       [1,1,1]
-    ])).toEqual(
-      "▓▓▓\n" +
-      "***\n" +
-      "▓▓▓"
-    );
-  });
+    ],
 
-  it('solves a bigger maze', function() {
-    expect(MazeSolver.solve([
+    biggerMaze = [
       [1,1,1,1,1],
       [0,0,0,0,1],
       [1,1,0,1,1],
       [1,0,0,0,0],
       [1,1,1,1,1]
-    ])).toEqual(
-      "▓▓▓▓▓\n" +
-      "*** ▓\n" +
-      "▓▓*▓▓\n" +
-      "▓ ***\n" +
-      "▓▓▓▓▓"
-    );
-  });
+    ],
 
-  it('solves a complicated maze with movements in all directions', function() {
-    expect(MazeSolver.solve([
+    complicatedMaze = [
       [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
       [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1],
       [1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1],
@@ -50,29 +35,72 @@ describe('MazeSolver', function() {
       [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1],
       [1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0],
       [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-    ])).toEqual(
-"▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓\n" +
-"****▓*******▓     ▓ ▓\n" +
-"▓ ▓*▓*▓▓▓ ▓*▓ ▓▓▓▓▓ ▓\n" +
-"▓ ▓***▓   ▓*****    ▓\n" +
-"▓▓▓ ▓ ▓▓▓▓▓▓▓▓▓*▓▓▓▓▓\n" +
-"▓   ▓         ▓*    ▓\n" +
-"▓ ▓ ▓ ▓▓▓ ▓▓▓▓▓*▓▓▓ ▓\n" +
-"▓ ▓ ▓ ▓   ▓  ***  ▓ ▓\n" +
-"▓▓▓ ▓▓▓▓▓ ▓▓▓*▓ ▓▓▓ ▓\n" +
-"▓     ▓     ▓*▓   ▓ ▓\n" +
-"▓▓▓ ▓ ▓▓▓ ▓ ▓*▓ ▓ ▓ ▓\n" +
-"▓   ▓   ▓ ▓ ▓*▓ ▓ ▓ ▓\n" +
-"▓ ▓ ▓▓▓▓▓ ▓ ▓*▓ ▓▓▓▓▓\n" +
-"▓ ▓ ▓ ▓   ▓ ▓*▓     ▓\n" +
-"▓ ▓▓▓ ▓ ▓ ▓▓▓*▓▓▓▓▓▓▓\n" +
-"▓ ▓ ▓   ▓ ▓  *▓*****▓\n" +
-"▓ ▓ ▓▓▓▓▓ ▓▓▓*▓*▓▓▓*▓\n" +
-"▓ ▓   ▓     ▓***  ▓*▓\n" +
-"▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓▓▓▓▓*▓\n" +
-"▓   ▓ ▓ ▓ ▓ ▓     ▓**\n" +
-"▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓"
-    );
+    ];
+
+  describe('#drawOriginal', function() {
+    it('draws simple maze', function() {
+      expect(new MazeSolver(basicMaze).drawOriginal()).toEqual(
+        "▓▓▓\n" +
+        "   \n" +
+        "▓▓▓"
+      );
+    });
+
+    it('draws a bigger maze', function() {
+      expect(new MazeSolver(biggerMaze).drawOriginal()).toEqual(
+        "▓▓▓▓▓\n" +
+        "    ▓\n" +
+        "▓▓ ▓▓\n" +
+        "▓    \n" +
+        "▓▓▓▓▓"
+      );
+    });
+  });
+
+  describe('#drawSolution', function() {
+    it('solves the basic maze', function() {
+      expect(new MazeSolver(basicMaze).drawSolution()).toEqual(
+        "▓▓▓\n" +
+        "***\n" +
+        "▓▓▓"
+      );
+    });
+
+    it('solves a bigger maze', function() {
+      expect(new MazeSolver(biggerMaze).drawSolution()).toEqual(
+        "▓▓▓▓▓\n" +
+        "*** ▓\n" +
+        "▓▓*▓▓\n" +
+        "▓ ***\n" +
+        "▓▓▓▓▓"
+      );
+    });
+  
+    it('solves a complicated maze with movements in all directions', function() {
+      expect(new MazeSolver(complicatedMaze).drawSolution()).toEqual(
+  "▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓\n" +
+  "****▓*******▓     ▓ ▓\n" +
+  "▓ ▓*▓*▓▓▓ ▓*▓ ▓▓▓▓▓ ▓\n" +
+  "▓ ▓***▓   ▓*****    ▓\n" +
+  "▓▓▓ ▓ ▓▓▓▓▓▓▓▓▓*▓▓▓▓▓\n" +
+  "▓   ▓         ▓*    ▓\n" +
+  "▓ ▓ ▓ ▓▓▓ ▓▓▓▓▓*▓▓▓ ▓\n" +
+  "▓ ▓ ▓ ▓   ▓  ***  ▓ ▓\n" +
+  "▓▓▓ ▓▓▓▓▓ ▓▓▓*▓ ▓▓▓ ▓\n" +
+  "▓     ▓     ▓*▓   ▓ ▓\n" +
+  "▓▓▓ ▓ ▓▓▓ ▓ ▓*▓ ▓ ▓ ▓\n" +
+  "▓   ▓   ▓ ▓ ▓*▓ ▓ ▓ ▓\n" +
+  "▓ ▓ ▓▓▓▓▓ ▓ ▓*▓ ▓▓▓▓▓\n" +
+  "▓ ▓ ▓ ▓   ▓ ▓*▓     ▓\n" +
+  "▓ ▓▓▓ ▓ ▓ ▓▓▓*▓▓▓▓▓▓▓\n" +
+  "▓ ▓ ▓   ▓ ▓  *▓*****▓\n" +
+  "▓ ▓ ▓▓▓▓▓ ▓▓▓*▓*▓▓▓*▓\n" +
+  "▓ ▓   ▓     ▓***  ▓*▓\n" +
+  "▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓▓▓▓▓*▓\n" +
+  "▓   ▓ ▓ ▓ ▓ ▓     ▓**\n" +
+  "▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓"
+      );
+    });
   });
 
 });
